@@ -1,12 +1,17 @@
 package com.mit.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.mit.dao.InvoiceRepo;
+import com.mit.dto.InvoiceDetailDto;
 import com.mit.dto.InvoiceDto;
+import com.mit.entity.InvoiceDetail;
 import com.mit.method.InvoiceInf;
+import com.mit.response.InvoiceResponse;
 
-import lombok.NoArgsConstructor;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -14,21 +19,39 @@ import lombok.RequiredArgsConstructor;
 public class InvoiceService implements InvoiceInf {
 	
 	private final InvoiceRepo invoiceRepo;
-	
+	private final InvoiceDetailService invoiceDetailService;
+
 
 	@Override
-	public String createInvoice(InvoiceDto invoiceDto) {
+	public List<InvoiceResponse> getAllInvoice() {
+		 var invoices = invoiceRepo.findAll();
+
+        return invoices.stream().map(InvoiceResponse::toResponse).toList();
+	}
+
+	@Transactional
+	@Override
+	public String createInvoice(InvoiceDto invoiceDto, List<InvoiceDetailDto> invoiceDetailDtos) {
+		var invoiceDetails = invoiceDetailService.createInvoiceDetail(invoiceDetailDtos);
+
 		var invoice = invoiceDto.toEntity(invoiceDto);
+		for (InvoiceDetail invoiceDetail : invoiceDetails) {
+			invoice.addInvoiceDetail(invoiceDetail);
+		}
 		invoiceRepo.save(invoice);
+
+
 		return "Successfully created invoice";
 	}
 
 
 	@Override
-	public String updateInvoice(Integer id,InvoiceDto invoiceDto) {
+	public String updateInvoice(Integer invoiceId,InvoiceDto invoiceDto, List<InvoiceDetailDto> invoiceDetailDtos) {
 		var invoice = invoiceDto.toEntity(invoiceDto);
-		invoice.setInvoiceId(id);
+		invoice.setInvoiceId(invoiceId);
 		invoiceRepo.save(invoice);
+
+		invoiceDetailService.updateInvoiceDetail(invoiceId,invoiceDetailDtos);
 		
 		return "Successfully updated invoice";
 	}

@@ -9,8 +9,8 @@ public interface InvoiceDetailInf {
 	
 	public List<InvoiceDetail> createInvoiceDetail(List<InvoiceDetailDto> InvoiceDetailDtos);
 	
-	public String updateInvoiceDetail(Integer id,List<InvoiceDetailDto> InvoiceDtos);
+	public void updateInvoiceDetail(Integer id,List<InvoiceDetailDto> InvoiceDtos);
 	
-	public String deleteInvoiceDetail(Integer id);
+	public void deleteInvoiceDetail(Integer id);
 
 }
