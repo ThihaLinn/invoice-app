@@ -22,7 +22,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Invoice {
+public class  Invoice {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

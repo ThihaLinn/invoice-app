@@ -57,6 +57,12 @@ public class InvoiceController {
 
 	}
 
+	@GetMapping("/{key}")
+	public  ResponseEntity<InvoiceDto> SearchInvoice(@PathVariable String key){
+
+	}
+
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteInvoice(@PathVariable Integer id){
 

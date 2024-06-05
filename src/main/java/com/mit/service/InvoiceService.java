@@ -29,6 +29,13 @@ public class InvoiceService implements InvoiceInf {
         return invoices.stream().map(InvoiceResponse::toResponse).toList();
 	}
 
+	@Override
+	public List<InvoiceDto> searchInvoice(String search) {
+
+		invoiceRepo.findByInvoiceNameLikeAndCashierNumber(search,search);
+		return List.of();
+	}
+
 	@Transactional
 	@Override
 	public String createInvoice(InvoiceDto invoiceDto, List<InvoiceDetailDto> invoiceDetailDtos) {

@@ -11,6 +11,8 @@ public interface InvoiceInf {
 
 	public List<InvoiceResponse> getAllInvoice();
 
+	public List<InvoiceDto> searchInvoice(String search);
+
 	public String createInvoice(InvoiceDto InvoiceDto, List<InvoiceDetailDto> invoiceDetailDto);
 
 	public String updateInvoice(Integer id,InvoiceDto InvoiceDto, List<InvoiceDetailDto> invoiceDetailDto);
